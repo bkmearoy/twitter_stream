@@ -11,39 +11,29 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 public class TwitterDao 
 {
-	private JdbcTemplate jdbc;
+	private NamedParameterJdbcTemplate jdbc;
 	
 	@Autowired
 	public void setDataSource(DataSource jdbc) 
 	{
-		this.jdbc = new JdbcTemplate (jdbc);
-		
+		this.jdbc = new NamedParameterJdbcTemplate(jdbc);
 	}
-	
-	public List<Table> getTables(){
-		
-		return jdbc.query("select * from twitter_record_1", new RowMapper<Table>(){
+	// Batch updata: prepared statement 
+	@Transactional
+		public int[]createInsert (List<Table>table){
+			SqlParameterSource[]params=SqlParameterSourceUtils.createBatch(table.toArray());
+			return jdbc.batchUpdate("insert into twitter_record_1 (name, screenName, friendsCount, text, createdAt, id) values (:name,:screenName,:friends,:message,:date,:id)",params);
 			
-			public Table mapRow(ResultSet rs, int rowNum) throws SQLException 
-			{
-				Table table = new Table();
-				
-				table.setId(rs.getInt("id"));
-				table.setName(rs.getString("name"));
-				table.setMessage(rs.getString("text"));
-				table.setFriends(rs.getInt("fiends"));
-				table.setDate(rs.getString("date"));
-				
-				return table;
-			}
-			
-		});
-	}
+		}
 		
 }
 			

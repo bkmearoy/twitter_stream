@@ -4,6 +4,7 @@ public class Table
 {
 	int id;
 	String name;
+	String screenName;
 	int friends;
 	String message;
 	String date;
@@ -38,5 +39,12 @@ public class Table
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getScreenName() {
+		return screenName;
+	}
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
+	}
+	
 	
 }
