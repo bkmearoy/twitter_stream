@@ -9,6 +9,15 @@ public class Table
 	String message;
 	String date;
 	
+	
+	public Table(int id, String name, String screenName, int friends, String message, String date) {
+		this.id = id;
+		this.name = name;
+		this.screenName = screenName;
+		this.friends = friends;
+		this.message = message;
+		this.date = date;
+	}
 	public String getDate() {
 		return date;
 	}

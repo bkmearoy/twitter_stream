@@ -1,6 +1,5 @@
 package com.fagena.twitter.twitter_stream;
 
-//import com.fagena.spring.jdbc.connect.Mav_Spring_Jdbc.Offer;
 import com.fagena.twitter.Controller.*;
 import com.fagena.twitter.Dao.*;
 
@@ -10,42 +9,31 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 //import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-/**
- *main procedures 
- *
- */
+
 public class App 
 {
-    public static void main( String[] args )
+	private static  String consumerKey = "46Dz3NbUZ4EnZnzmUjclSL7Ci";
+	private static  String consumerSecret = "OpigqjT2hUruK9YDVfJah2UzYgbsi7kZfs88NUpNJJ9rbrY0ZZ";
+	private static  String token = "805219579698040832-L6Jl2qpxsiooHrGmBxq3NAgVNHeXyr1";
+	private static String secret = "fzZNZsv8jgYsEdHqTmTGtnEf8TU8XPMGhN9KRlemgxKjH";
+	
+    public static void main( String[] args ) throws InterruptedException
     {
     	   // ApplicationContext is a bean container 
         ApplicationContext context = new FileSystemXmlApplicationContext("beans.xml");
     //	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         
         TwitterController twitter=(TwitterController) context.getBean("twittercontroller_id");
-        twitter.start();
+        twitter.run(consumerKey, consumerSecret, token, secret);
         
         TwitterDao twitterDao = (TwitterDao) context.getBean("twitterdao_id");
-        
-     // this is now for inserting list of object 
-     		List <Table> tablelist=new ArrayList<Table>();
-     		//tablelist.add(new Table());
+
+        // inserting list of object to Db
+     		//List <Table> tablelist=new ArrayList<Table>();
+     		//tablelist.add(new Table(211, "asmara","ytre",4000,"Deverloper at fagena", "03-27-2018"));
+     		//twitterDao.createInsert(tablelist);
      		
-     		//tablelist.add(new Table(211, "asmara","asmara@yahoo.com","Deverloper at fagena"));
-     		//tablelist.add(new Table(212, "aseb","aseb@yahoo.com","Manager at fagena"));
-     		
-     	//	(name, screenName, friendsCount, text, createdAt, id)
-     		
-     		twitterDao.createInsert(tablelist);
-     		
-     		int id;
-     		String name;
-     		String screenName;
-     		int friends;
-     		String message;
-     		String date;
-       // System.out.println(twitter);
-   // clos ur classpathxmlapplicationcontext 
+       // close classpathxmlapplicationcontext 
        ( (FileSystemXmlApplicationContext)context).close();
         
     }

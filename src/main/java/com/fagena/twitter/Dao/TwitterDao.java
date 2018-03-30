@@ -27,7 +27,7 @@ public class TwitterDao
 	{
 		this.jdbc = new NamedParameterJdbcTemplate(jdbc);
 	}
-	// Batch updata: prepared statement 
+	// Batch update: prepared statement 
 	@Transactional
 		public int[]createInsert (List<Table>table){
 			SqlParameterSource[]params=SqlParameterSourceUtils.createBatch(table.toArray());
