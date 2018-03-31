@@ -1,5 +1,6 @@
 package com.fagena.twitter.Controller;
 import com.fagena.twitter.Model.Twitter;
+import com.fagena.twitter.Dao.Table;
 import com.google.gson.Gson;
 import com.twitter.hbc.ClientBuilder;
 import com.twitter.hbc.core.Constants;
@@ -12,16 +13,20 @@ import com.twitter.hbc.httpclient.auth.OAuth1;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TwitterController {
 	
+	public static List<Table> tablelist = new ArrayList<Table>();
+		 
 	public static void run(String consumerKey, String consumerSecret,
 				String token, String secret) throws InterruptedException {
-		// Create an appropriately sized blocking queue
+		     // Create an appropriately sized blocking queue
 				BlockingQueue<String> queue = new LinkedBlockingQueue<String>(10000);
 
-				// Define our endpoint: By default, delimited=length is set (we need
+				// Define our end-point: By default, delimited=length is set (we need
 				// this for our processor)
 				// and stall warnings are on.
 				StatusesSampleEndpoint endpoint = new StatusesSampleEndpoint();
@@ -35,9 +40,9 @@ public class TwitterController {
 						.authentication(auth)
 						.processor(new StringDelimitedProcessor(queue)).build();
 
-				// Establish a connection
+				// Establish a connection with client 
 				client.connect();
-
+                //
 				// Do whatever needs to be done with messages
 				for (int msgRead = 0; msgRead < 1000; msgRead++) {
 					if (client.isDone()) {
@@ -53,60 +58,34 @@ public class TwitterController {
 						System.out.println(msg);
 						Gson gson = new Gson();
 						Twitter tw = gson.fromJson(msg, Twitter.class);
-						System.out.println("tw " + tw.getCreatedAt());
-						String createdAt = tw.getCreatedAt();
-
-						System.out.println("tw " + tw.getId());
-						long id = tw.getId();
-
-						System.out.println("tw " + tw.getText());
-						String text = tw.getText();
-
+					
+                         //
 						if (tw.getUser() != null) {
-
+							System.out.println("tw " + tw.getCreatedAt());
+							System.out.println("tw " + tw.getId());
+							System.out.println("tw " + tw.getText());
 							System.out.println("tw " + tw.getUser().getFriendsCount());
-							//friendsCount = tw.getUser().getFriendsCount();
 							System.out.println("tw " + tw.getUser().getName());
-						    //  name = tw.getUser().getName();
 							System.out.println("tw " + tw.getUser().getScreenName());
-						//	screenName = tw.getUser().getScreenName();
+							System.out.println();
+					     	System.out.println("********New Message**********");
+							//store data in ArrayList
+							tablelist.add(new Table (tw.getId(),tw.getUser().getName(),tw.getUser().getScreenName(),
+									tw.getUser().getFriendsCount(),tw.getText(),tw.getCreatedAt()));
 
 						}
-
-/**
-					try {
-
-						String query = " insert into twitter_record_1 (id, name, screenName, friendsCount, text, createdAt)"
-								+ " values (?, ?, ?, ?, ?, ?)";
-						// create the mysql insert preparedstatement
-						Connection conn;
-						TwitterDao twitterDao = new TwitterDao();
-						conn = twitterDao.getMySqlConnection();
-						PreparedStatement preparedStmt = conn
-								.prepareStatement(query);
-						preparedStmt.setLong(1, id);
-						preparedStmt.setString(2, name);
-						preparedStmt.setString(3, screenName);
-						preparedStmt.setLong(4, friendsCount);
-						preparedStmt.setString(5, text);
-						preparedStmt.setString(6, createdAt);
-						preparedStmt.execute();
-						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						System.err.println("Got an exception!");
-						System.err.println(e.getMessage());
-					}
-					***/
-
 				}
 			}
-
+            //stop(close) connection with client  
 			client.stop();
 
 			// Print some status 
 			System.out.printf("The client read %d messages!\n", client
 					.getStatsTracker().getNumMessages());
 		}
+	//get 
+	public List<Table> getTable (){
+		
+		return tablelist;
+	}
 }

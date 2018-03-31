@@ -2,15 +2,15 @@ package com.fagena.twitter.Dao;
 
 public class Table 
 {
-	int id;
+	long id;
 	String name;
 	String screenName;
-	int friends;
+	long friends;
 	String message;
 	String date;
 	
 	
-	public Table(int id, String name, String screenName, int friends, String message, String date) {
+	public Table(long id, String name, String screenName, long friends, String message, String date) {
 		this.id = id;
 		this.name = name;
 		this.screenName = screenName;
@@ -24,13 +24,13 @@ public class Table
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getFriends() {
+	public long getFriends() {
 		return friends;
 	}
 	public void setFriends(int friends) {
 		this.friends = friends;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public void setId(int id) {
