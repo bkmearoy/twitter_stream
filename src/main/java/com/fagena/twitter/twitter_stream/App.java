@@ -8,10 +8,10 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class App 
 {
-	private static  String consumerKey = "46Dz3NbUZ4EnZnzmUjclSL7Ci";
-	private static  String consumerSecret = "OpigqjT2hUruK9YDVfJah2UzYgbsi7kZfs88NUpNJJ9rbrY0ZZ";
-	private static  String token = "805219579698040832-L6Jl2qpxsiooHrGmBxq3NAgVNHeXyr1";
-	private static  String secret = "fzZNZsv8jgYsEdHqTmTGtnEf8TU8XPMGhN9KRlemgxKjH";
+	private static  String consumerKey = "------------------------";
+	private static  String consumerSecret = "-----------------------------";
+	private static  String token = "----------------------------------------";
+	private static  String secret = "-----------------------------------------";
 	
     public static void main( String[] args ) throws InterruptedException
     {
