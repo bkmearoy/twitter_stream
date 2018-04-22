@@ -16,8 +16,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+//log4j 
+import org.apache.log4j.Logger;
+
+
 
 public class TwitterController {
+	
+	final static Logger logger = Logger.getLogger(TwitterController.class);
 	
 	public static List<Table> tablelist = new ArrayList<Table>();
 		 
@@ -42,10 +48,12 @@ public class TwitterController {
 
 				// Establish a connection with client 
 				client.connect();
+				logger.info("Connection established with client");
                 //
 				// Do whatever needs to be done with messages
-				for (int msgRead = 0; msgRead < 1000; msgRead++) {
+				for (int msgRead = 0; msgRead < 25; msgRead++) {
 					if (client.isDone()) {
+						logger.error("Client Connection closed unexpectedly");
 						System.out.println("Client connection closed unexpectedly: "
 								+ client.getExitEvent().getMessage());
 						break;
@@ -53,6 +61,7 @@ public class TwitterController {
 
 					String msg = queue.poll(5, TimeUnit.SECONDS);
 					if (msg == null) {
+						logger.info("no message receive in 5 Seconds");
 						System.out.println("Did not receive a message in 5 seconds");
 					} else {
 						System.out.println(msg);
@@ -67,6 +76,7 @@ public class TwitterController {
 							System.out.println("tw " + tw.getUser().getFriendsCount());
 							System.out.println("tw " + tw.getUser().getName());
 							System.out.println("tw " + tw.getUser().getScreenName());
+							logger.info("new message");
 							System.out.println();
 					     	System.out.println("********New Message**********");
 							//store data in ArrayList
@@ -78,6 +88,7 @@ public class TwitterController {
 			}
             //stop(close) connection with client  
 			client.stop();
+			logger.info("connection closed with client");
 
 			// Print some status 
 			System.out.printf("The client read %d messages!\n", client
