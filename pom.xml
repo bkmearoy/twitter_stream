@@ -32,9 +32,9 @@
 
 <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-core</artifactId>
-    <version>5.0.4.RELEASE</version>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-core</artifactId>
+  <version>[5.0.7,)</version>
 </dependency>
 
 <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
